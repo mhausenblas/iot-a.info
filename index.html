@@ -1,33 +1,138 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Iot-a.info : Internet of Things Architecture (iot-a) home page">
-
+    <meta name="description" content="iot-a.info : Internet of Things Architecture (iot-a)">
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>iot-a.info</title>
+    <title>iot-a</title>
   </head>
-
   <body>
-
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <h1 id="project_title">iot-a</h1>
-          <h2 id="project_tagline">the <strong>i</strong>nternet <strong>o</strong>f <strong>t</strong>hings <strong>a</strong>rchitecture</h2>
+          <h1 id="project_title">ιot-a</h1>
+          <h2 id="project_tagline">the <strong>ι</strong>nternet <strong>o</strong>f<strong>t</strong>hιngs <strong>a</strong>rchιtecture</h2>
         </header>
     </div>
-
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>TBD</p>
+        <p>
+        The Internet of Things (IoT) is the concept of an ubiquitous network of 
+        devices to facilitate communication between the devices themselves, as 
+        well as between the devices and human end users. The involved devices 
+        are typically constrained devices such as RFID sensors, but more 
+        sophisticated ones like smartphones are also considered to be part
+        of the IoT ecosystem. 
+      </p>
+      <p>
+        Processing data from IoT devices lends itself to the Big Data approach, 
+        that is, using scale-out techniques on commodity hardware in a 
+        schema-on-read fashion along with community-defined interfaces. 
+        <em>Why is that so?</em> Well, in order to develop a commercial-grade 
+        IoT application you need to be able to capture and store all the incoming
+        sensor data to build up the historical references (volume aspect of Big Data).
+        Then, there are dozens of data formats in use in the IoT world and none
+        of the sensor data is relational per se (variety aspect of Big Data). 
+        Last but not least, many devices generate data at a high rate and usually
+        we cope with data streams in an IoT context (the velocity aspect of Big Data).
+      </p>
+      <p>
+      In the following we discuss a <a href="http://datadventures.ghost.io/2014/07/06/polyglot-processing/">polyglot processing</a>
+      architecture, enabling us to develop and operate IoT applications, at scale: the <em>Internet of Things Architecture</em>
+      (or iot-a, for short). It consists of three main building blocks:
+      </p>
+      <div class="fig">
+        <a href="res/iot-a-overview.pdf">
+          <img src="images/iot-a-overview.png" width="411px" alt="iot-a overview">
+        </a>
+        <p>Overview</p>
+      </div>
+      <ol class="main-blocks">
+        <li>
+          <strong>MQ/SP</strong> ... the <em>Message Queue/Stream Processing</em> 
+          block takes the input data and performs—depending on the application 
+          requirements—one or more of the following operations on it:
+          <ul>
+            <li>
+              Buffering: to adapt to the processing speed or throughput characteristics of downstream components,
+              it often is necessary to buffer inbound data points. Equally, through micro-batching data points, 
+              the ingestion rate into downstream components can be increased.
+            </li>
+            <li>
+              Filtering: ranging from simple cleansing operation to application-specific removal of certain data points.
+            </li>
+            <li>
+              Complex online processing over streams: continuous queries, aggregates, counts, 
+              real-time machine learning algorithms, etc.
+            </li>
+          </ul>
+          The MQ/SP block can produce two kinds of output data: 1. real-time output, and
+          (optionally) 2. ingestion output for downstream components (DB and/or DFS).
+          <p>
+            Example: In an application for the automotive sector, the <em>MQ/SP</em> block might be
+            responsible for generating a heads-up text message that is sent to the
+            driver of a connected car in the event of a predicted engine malfunction. 
+            The most important aspect here is that the alert reaches the user in time,
+            potentially preventing an accident.
+          </p>
+        </li>
+        <li>
+          <strong>DB</strong> ... the <em>Database</em> block takes the data from the upstream <em>MQ/SP</em> 
+          and provides structured, fine-grained, low-latency access to the data points.
+          Due to the nature of the data, the database block is typically a NoSQL solution,
+          able to accommodate sparse data, with auto-sharding and horizontal scale-out properties.
+          The database block output can is of interactive nature, with an interface provided
+          either through a store-specific API (such as the HBase API) or through the standard
+          interface SQL.
+          <p>
+            Example: Staying with the connected car from above, an example usage of the 
+            <em>DB</em> block is as follows: a mechanic in a garage can, once the car
+            owner approves a service-as-you-go, inspect the car’s vital signal, 
+            asking ad-hoc questions and correlate it with other cars of the same 
+            build in order to asses potential damage and develop a repair strategy.
+          </p>
+        </li>
+        <li>
+          <strong>DFS</strong> ... the <em>Distributed File System</em> block takes the data from 
+          either the <em>DB</em> block or directly from the <em>MQ/SP</em> block and 
+          performs batch jobs—usually aggregations and reporting type of jobs—over 
+          the entire dataset. This might include combining the data from IoT devices 
+          with other data sources, such as those delivering customer or product data 
+          or potentially unstructured ones, for example PDF documents.
+          <p>
+            Example: Again in the context of the smart car, an example usage of the 
+            <em>DFS</em> block goes as so: the car owner has access to a Web site where, on a 
+            weekly basis, metrics about the car, are made available in order for the
+            owner to assess the overall health and performance of her vehicle.
+          </p>
+        </li>
+      </ol>
+      <p>
+        An example configuration of the iot-a is as follows:
+      </p>
+      <div class="fig">
+        <a href="res/iot-a-example.pdf">
+          <img src="images/iot-a-example.png" width="411px" alt="iot-a example">
+        </a>
+        <p>iot-a in action.</p>
+      </div>
+      <p>
+        To learn more about the above configuration, see the following resources:
+      </p>
+      <ul>
+        <li>Apache <a href="http://kafka.apache.org/">Kafka</a></li>
+        <li>Apache <a href="http://spark.apache.org/">Spark</a></li>
+        <li>Apache <a href="http://storm.apache.org/">Storm</a></li>
+        <li><a href="http://www.fluentd.org/">fluentd</a></li>
+        <li>MapR's <a href="http://doc.mapr.com/display/RelNotes/Version+4.0.1+Release+Notes">Community Edition</a></li>
+        <li>Apache <a href="http://incubator.apache.org/drill/">Drill</a></li>
+        <li>Apache <a href="http://hive.apache.org/">Hive</a></li>
+        <li>Apache <a href="http://mahout.apache.org/">Mahout</a></li>
+      </li>
       </section>
     </div>
-
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
@@ -37,18 +142,16 @@
         </p>
       </footer>
     </div>
-
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-55189838-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
-
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-55189838-1");
+        pageTracker._trackPageview();
+      }
+      catch(err) {}
+    </script>
   </body>
 </html>
