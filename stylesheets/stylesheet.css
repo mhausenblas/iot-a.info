@@ -269,6 +269,11 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+.copyright {
+  font-size: 80%;
+  color: #c0c0c0;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;
