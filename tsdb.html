@@ -13,7 +13,7 @@
         <header class="inner">
           <h1 id="project_title">ιot-a</h1>
           <h2 id="project_tagline">the <strong>ι</strong>nternet <strong>o</strong>f <strong>t</strong>hιngs <strong>a</strong>rchιtecture</h2>
-          <section id="menu_items"><a href="./">home</a> | <span class="selected_menu_item">time series</span> | use cases</section>
+          <section id="menu_items"><a href="./">home</a> | <span class="selected_menu_item">time series</span></section>
         </header>
     </div>
     <!-- MAIN CONTENT -->
@@ -22,23 +22,48 @@
         <p>
           In the context of processing IoT data, time series play a central role
           as most of the data is time-related, time-ordered or has a temporal component.
-          Here are a few useful time series databases in alphabetical order along with some
+          Here are a few time series databases (in alphabetical order) along with some
           comments concerning usage and background:
        </p>
-      <ul>
+      <ul class="tsdb-list">
         <li>
-          <a href="http://opentsdb.net/">OpenTSDB</a>: a mature and established player implemented  
+          <a href="http://1248.io/geras.php">Geras</a>: Supports some IoT formats/protocols such 
+          as MQTT out-of-the-box. The (free) on-line version can be used without limitations, however comes 
+          without any SLAs. An on-premise version is available, contact the vendor for details.
+        </li>
+        <li>
+          <a href="http://influxdb.com/">InfluxDB</a>: Written in <a href="http://golang.org/">Go</a> this 
+          open-source distributed time series database has no external dependencies. Has a powerful
+          SQL-like query language, leveraging regexp and allowing continuos queries, and supporting fan-out
+          as well as a number of aggregate functions such as <code>PERCENTILE</code>. It comes with an
+          (experimental) <a href="http://raftconsensus.github.io/">Raft</a>-based cluster mode.
+        </li>
+        <li>
+          <a href="https://github.com/kairosdb/kairosdb">KairosDB</a>: A distributed scalable 
+          time series database written on top of Cassandra.
+        </li>
+        <li>
+          <a href="http://kx.com/resources.php">kdb+</a>: Comes with own query language offering temporal primitives
+          and execution control and <a href="http://code.kx.com/wiki/Cookbook/IntegratingWithR">R integration</a>.
+        </li>
+        <li>
+          <a href="http://opentsdb.net/">OpenTSDB</a>: A mature and established player implemented  
           on top of Apache HBase. Scales to billions of data points and ingest rates
           up to the <a href="https://www.mapr.com/blog/loading-time-series-database-100-million-points-second">100,000 million data points per second</a>.
         </li>
-      </li>
+        <li>
+          <a href="https://www.tempoiq.com/">TempoIQ</a>: Previously <a href="https://gigaom.com/2014/07/08/database-startup-tempodb-becomes-tempoiq-refocuses-on-sensor-analytics/">known as TempoDB</a>,
+           the company started out with capturing time series data for sensors and the like 
+           and has refocused its business around providing a collection of analytics capabilities for sensor environments. 
+        </li>
+      </ul>
       </section>
     </div>
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">
-          last update 2014-09-27 |
+          last update 2014-09-29 |
           maintained by <a href="https://github.com/mhausenblas">mhausenblas</a> |
           published with <a href="http://pages.github.com">GitHub Pages</a>
         </p>

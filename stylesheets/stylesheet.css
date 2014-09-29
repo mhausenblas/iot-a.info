@@ -186,6 +186,7 @@ code {
   padding: 3px;
   margin: 0 3px;
   box-shadow: 0 0 10px rgba(0,0,0,.1);
+  font-size: 70%;
 }
 
 pre code {
@@ -295,6 +296,11 @@ Full-Width Styles
   font-size: 90%;
   color: #909090;
   text-align: justify;
+}
+
+.tsdb-list li {
+  margin: 0 0 10px 0;
+  width: 90%;
 }
 
 .selected_menu_item{
@@ -416,7 +422,7 @@ Small Device Styles
   code, pre {
     min-width: 320px;
     max-width: 480px;
-    font-size: 11px;
+    font-size: 10px;
   }
 
 }
